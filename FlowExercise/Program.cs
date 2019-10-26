@@ -15,6 +15,7 @@ namespace FlowExercise
                 Console.WriteLine("Quit with 0");
                 Console.WriteLine("1: Youth or Pensioner");
                 Console.WriteLine("2: Groups");
+                Console.WriteLine("3: Print arbitrary text 10 times");
                 int answer = int.Parse( Console.ReadLine() );
 
                 switch (answer)
@@ -53,6 +54,21 @@ namespace FlowExercise
                         }
                         Console.WriteLine($"You are {NumberOfPersons} persons.");
                         Console.WriteLine($"You will totally pay {Totalprice} kr.");
+                        Console.WriteLine();
+                        break;
+
+                    case 3:
+                        Console.WriteLine("Print your text:");
+                        string answer3 = Console.ReadLine();
+                        for (int index = 0; index < 10; index += 1)
+                        {
+                            Console.Write($"{index}: {answer3}");
+                            if (index < 9)
+                            {
+                                Console.Write(", ");
+                            }
+                        }
+                        Console.WriteLine();
                         Console.WriteLine();
                         break;
 
