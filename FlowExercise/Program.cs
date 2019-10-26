@@ -16,6 +16,7 @@ namespace FlowExercise
                 Console.WriteLine("1: Youth or Pensioner");
                 Console.WriteLine("2: Groups");
                 Console.WriteLine("3: Print arbitrary text 10 times");
+                Console.WriteLine("4: The 3rd word");
                 int answer = int.Parse( Console.ReadLine() );
 
                 switch (answer)
@@ -69,6 +70,17 @@ namespace FlowExercise
                             }
                         }
                         Console.WriteLine();
+                        Console.WriteLine();
+                        break;
+
+                    case 4:
+                        Console.WriteLine("Write your text containing at least 3 words");
+                        var answer4 = Console.ReadLine();
+                        var splitted = answer4.Split(" ");
+                        //foreach(var word in splitted){
+                        //    Console.WriteLine(word);
+                        //} 
+                        Console.WriteLine($"The 3rd word is: \"{splitted[2]}\".");
                         Console.WriteLine();
                         break;
 
