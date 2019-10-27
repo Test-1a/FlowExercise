@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace FlowExercise
 {
@@ -6,9 +7,11 @@ namespace FlowExercise
     {
         static void Main(string[] args)
         {
+            //keeps the loop going until we want to quit
             bool condition = true;
+
+            //I use do-while so "break" will not quit the loop
             do
-            //while (condition)
             {
                 Console.WriteLine("Welcome to the Main menu");
                 Console.WriteLine("Please use numbers to navigate");
@@ -21,20 +24,31 @@ namespace FlowExercise
 
                 switch (answer)
                 {
+                    //Quitting the program
                     case 0:
+                        //only here do we want to quit the loop
                         condition = false;
                         break;
 
+                    //Are you Youth or Pensioner
                     case 1:
                         Console.WriteLine("What is your age?");
                         int answer2 = int.Parse( Console.ReadLine() );
-                        if (answer2 < 20)
+                        if (answer2 < 5)
                         {
-                            Console.WriteLine("Youth-price: 80 kr");
+                            Console.WriteLine("Child price: 0 kr");
                         }
-                        else if(answer2 > 64)
+                        else if (answer2 < 20)
                         {
-                            Console.WriteLine("Pensioner-price: 90 kr");
+                            Console.WriteLine("Youthprice: 80 kr");
+                        }
+                        else if(answer2 > 64 && answer2 <= 100)
+                        {
+                            Console.WriteLine("Pensioner price: 90 kr");
+                        }
+                        else if(answer2 > 100)
+                        {
+                            Console.WriteLine("Pensioner-over-100 price: 0 kr");
                         }
                         else
                         {
@@ -43,6 +57,8 @@ namespace FlowExercise
                         Console.WriteLine();
                         break;
 
+
+                    //Groups
                     case 2:
                         Console.WriteLine("How many persons are you?");
                         int NumberOfPersons = int.Parse( Console.ReadLine() );
@@ -51,6 +67,8 @@ namespace FlowExercise
                         {
                             Console.WriteLine("Please state the age of each person one age at a time");
                             int age = int.Parse( Console.ReadLine() );
+
+                            //GetPrice returns the price for each person in the group
                             Totalprice += GetPrice(age);
                         }
                         Console.WriteLine($"You are {NumberOfPersons} persons.");
@@ -58,12 +76,16 @@ namespace FlowExercise
                         Console.WriteLine();
                         break;
 
+                    //arbritary text 10 times
                     case 3:
                         Console.WriteLine("Print your text:");
                         string answer3 = Console.ReadLine();
                         for (int index = 0; index < 10; index += 1)
                         {
+                            //"Write" does NOT change to the next line
                             Console.Write($"{index}: {answer3}");
+
+                            //add a comma after the text except after the last one
                             if (index < 9)
                             {
                                 Console.Write(", ");
@@ -73,13 +95,17 @@ namespace FlowExercise
                         Console.WriteLine();
                         break;
 
+                    //the 3rd word
                     case 4:
                         Console.WriteLine("Write your text containing at least 3 words");
                         var answer4 = Console.ReadLine();
-                        var splitted = answer4.Split(" ");
-                        //foreach(var word in splitted){
-                        //    Console.WriteLine(word);
-                        //} 
+
+                        //replaces more than 1 whitespace with only 1 whitespace
+                        var test = Regex.Replace(answer4, @"\s+", " ");
+
+                        //split the string and remove the whitespace between the words
+                        var splitted = test.Split(" ");
+                        
                         Console.WriteLine($"The 3rd word is: \"{splitted[2]}\".");
                         Console.WriteLine();
                         break;
@@ -90,10 +116,13 @@ namespace FlowExercise
                 }
             } while (condition);
 
+            //returns price depending on your age
             int GetPrice(int age)
             {
-                if (age < 20) return 80;
-                else if (age > 64) return 90;
+                if (age < 5) return 0;
+                else if (age < 20) return 80;
+                else if (age > 64 && age <= 100) return 90;
+                else if (age > 100) return 0;
                 else return 120;
             }
         }
