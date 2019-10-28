@@ -13,14 +13,17 @@ namespace FlowExercise
             //I use do-while so "break" will not quit the loop
             do
             {
-                Console.WriteLine("Welcome to the Main menu");
-                Console.WriteLine("Please use numbers to navigate");
-                Console.WriteLine("Quit with 0");
-                Console.WriteLine("1: Youth or Pensioner");
-                Console.WriteLine("2: Groups");
-                Console.WriteLine("3: Print arbitrary text 10 times");
-                Console.WriteLine("4: The 3rd word");
-                int answer = int.Parse( Console.ReadLine() );
+                //Console.WriteLine("Welcome to the Main menu");
+                //Console.WriteLine("Please use numbers to navigate");
+                //Console.WriteLine("Quit with 0");
+                //Console.WriteLine("1: Youth or Pensioner");
+                //Console.WriteLine("2: Groups");
+                //Console.WriteLine("3: Print arbitrary text 10 times");
+                //Console.WriteLine("4: The 3rd word");
+                ReadMenu();
+                //int answer = int.Parse(Console.ReadLine());
+                int answer = IntRead();
+                
 
                 switch (answer)
                 {
@@ -33,7 +36,8 @@ namespace FlowExercise
                     //Are you Youth or Pensioner
                     case 1:
                         Console.WriteLine("What is your age?");
-                        int answer2 = int.Parse( Console.ReadLine() );
+                        //int answer2 = int.Parse(Console.ReadLine());
+                        int answer2 = IntRead();
                         if (answer2 < 5)
                         {
                             Console.WriteLine("Child price: 0 kr");
@@ -42,11 +46,11 @@ namespace FlowExercise
                         {
                             Console.WriteLine("Youthprice: 80 kr");
                         }
-                        else if(answer2 > 64 && answer2 <= 100)
+                        else if (answer2 > 64 && answer2 <= 100)
                         {
                             Console.WriteLine("Pensioner price: 90 kr");
                         }
-                        else if(answer2 > 100)
+                        else if (answer2 > 100)
                         {
                             Console.WriteLine("Pensioner-over-100 price: 0 kr");
                         }
@@ -61,12 +65,13 @@ namespace FlowExercise
                     //Groups
                     case 2:
                         Console.WriteLine("How many persons are you?");
-                        int NumberOfPersons = int.Parse( Console.ReadLine() );
+                        //int NumberOfPersons = int.Parse(Console.ReadLine());
+                        int NumberOfPersons = IntRead();
                         int Totalprice = 0;
-                        for(int index = 0; index < NumberOfPersons; index += 1)
+                        for (int index = 0; index < NumberOfPersons; index += 1)
                         {
                             Console.WriteLine("Please state the age of each person one age at a time");
-                            int age = int.Parse( Console.ReadLine() );
+                            int age = IntRead();   //int.Parse(Console.ReadLine());
 
                             //GetPrice returns the price for each person in the group
                             Totalprice += GetPrice(age);
@@ -79,7 +84,7 @@ namespace FlowExercise
                     //arbritary text 10 times
                     case 3:
                         Console.WriteLine("Print your text:");
-                        string answer3 = Console.ReadLine();
+                        string answer3 = AskForString();  //Console.ReadLine();
                         for (int index = 0; index < 10; index += 1)
                         {
                             //"Write" does NOT change to the next line
@@ -98,14 +103,14 @@ namespace FlowExercise
                     //the 3rd word
                     case 4:
                         Console.WriteLine("Write your text containing at least 3 words");
-                        var answer4 = Console.ReadLine();
+                        var answer4 = AskForString();   //Console.ReadLine();
 
                         //replaces more than 1 whitespace with only 1 whitespace
-                        var test = Regex.Replace(answer4, @"\s+", " ");
+                        var replaced = Regex.Replace(answer4, @"\s+", " ");
 
                         //split the string and remove the whitespace between the words
-                        var splitted = test.Split(" ");
-                        
+                        var splitted = replaced.Split(" ");
+
                         Console.WriteLine($"The 3rd word is: \"{splitted[2]}\".");
                         Console.WriteLine();
                         break;
@@ -124,6 +129,62 @@ namespace FlowExercise
                 else if (age > 64 && age <= 100) return 90;
                 else if (age > 100) return 0;
                 else return 120;
+            }
+
+            string AskForString()
+            {
+                //we have not got the correct answer yet
+                bool correctAnswer = false;
+                string answer;
+
+                do
+                {
+                    answer = Console.ReadLine();
+
+                    if (!string.IsNullOrEmpty(answer))
+                    {
+                        //now we have got the correct answer => exit loop
+                        correctAnswer = true;
+                    }
+                } while (!correctAnswer);
+
+                return answer;
+            }
+
+            int IntRead()
+            {
+                bool success = false;
+                int answer;
+
+                do
+                {
+                    string input = AskForString();
+
+                    //trying to parse the string to int
+                    //if successful => returns true => quit the loop
+                    //if NOT successful => returns false
+                    success = int.TryParse(input, out answer);
+
+                    if (!success)
+                    {
+                        Console.WriteLine("Only numbers, please");
+                        Console.WriteLine();
+                    }
+
+                } while (!success);
+
+                return answer;
+            }
+
+            void ReadMenu()
+            {
+                Console.WriteLine("Welcome to the Main menu");
+                Console.WriteLine("Please use numbers to navigate");
+                Console.WriteLine("Quit with 0");
+                Console.WriteLine("1: Youth or Pensioner");
+                Console.WriteLine("2: Groups");
+                Console.WriteLine("3: Print arbitrary text 10 times");
+                Console.WriteLine("4: The 3rd word");
             }
         }
     }
